@@ -12,7 +12,7 @@ def stoptesting():#need to determine what value to stop the system
     i = 0;
     dlg.lineEdit_6.setText(str(i))
 
-
+#HAHAHA TRYING
 def TimeDelay(int):#time delay function in msecs
     QtTest.QTest.qWait(int)
 
