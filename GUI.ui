@@ -479,6 +479,7 @@ border: none;</string>
    <zorder>groupBox_3</zorder>
    <zorder>lineEdit_6</zorder>
    <zorder>label_date</zorder>
+   <zorder>horizontalSpacer</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
