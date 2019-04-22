@@ -20,6 +20,7 @@ class MainWindow(QMainWindow):
         #####could get the frame from main script#####
         #self.cap = cv2.VideoCapture(0)
         self.runCode()
+        
 
 
 ########Send to send data to the main script
@@ -29,7 +30,6 @@ class MainWindow(QMainWindow):
     ####return StopValue####    
     def SendStop(self,StopValue):
         StopValue = 0;
-        self.lineEdit_6.setText(str(i))
         return StopValue
 
       
@@ -96,14 +96,11 @@ class MainWindow(QMainWindow):
             self.Result_block3.setStyleSheet("background-color: rgb(0, 0, 255);")
 
 
-
     #get the last 3 elements of Order array 
     #OrderV should be a size of 3 array
-    def SendSetPush(self,orderV):
+    def SendSetPush(self):
         global Order
-        self.lineEdit_6.setText(str(Order))
-        for i in range(3)
-            orderV[i] = Order[i]
+        return Order
         
     def Assembly(self):
         self.GreenButton.clicked.connect(self.GreenPush)
@@ -122,26 +119,34 @@ class MainWindow(QMainWindow):
         self.Result_block3.setStyleSheet("background-color: rgb(255, 255, 255);")
 
         
-    def GetWebCam(self,image):
+    def GetWebCam(self,ret,image):
 
-        # read image in BGR format
-        #ret, image = self.cap.read() this one is using own webcam
-        # convert image to RGB format
+        #ret, image = self.cap.read() this one is using own webcamt
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        # get image infos
         height, width, channel = image.shape
         step = channel * width
-        # create QImage from image
         qImg = QImage(image.data, width, height, step, QImage.Format_RGB888)
-        # show image in img_label
         self.Label_image.setPixmap(QPixmap.fromImage(qImg))
+
+
+    def GetData(self,green,red,blue,Assembly):
+        self.GreenM.display(green)
+        self.RedM.display(red)
+        self.BlueM.display(blue)
+        self.AssemblyM.display(Assembly)
+        print ("test")
+
 
     def runCode(self):
         self.timer.timeout.connect(self.Showtime)
         self.timer.start(100)
-        self.timer.timeout.connect(self.GetWebCam)
-        self.timer.start(100)
-
+        #self.timer.timeout.connect(self.GetWebCam(ret,image))
+        #self.timer.start(100)
+        t1=10
+        t2=2
+        t3=3
+        t4 = 5
+        self.GetData(t1,t2,t3,t4)
         
         self.Result_block1.setEnabled(False)
         self.Result_block2.setEnabled(False)
@@ -149,10 +154,11 @@ class MainWindow(QMainWindow):
 
 
         self.Assembly()
-        self.SetButton.clicked.connect(self.SetPush)
+        self.SetButton.clicked.connect(self.SendSetPush)
         self.ClearButton.clicked.connect(self.ClearPush)
-        self.StopButton.clicked.connect(self.Stop)
+        self.StopButton.clicked.connect(self.SendStop)
 
+        
 
 
 
