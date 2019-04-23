@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import QWidget,QMainWindow
 import sys
 import cv2
 
+CodeRunning = 1;
 Order = [0,0,0]
 counter = 0
 
@@ -15,12 +16,11 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow,self).__init__()
         uic.loadUi("GUI.ui",self)
-        
         self.timer = QTimer()
         #####could get the frame from main script#####
         #self.cap = cv2.VideoCapture(0)
         self.runCode()
-        
+                
 
 
 ########Send to send data to the main script
@@ -28,10 +28,10 @@ class MainWindow(QMainWindow):
 
     #need to determine what value to stop the system
     ####return StopValue####    
-    def SendStop(self,StopValue):
-        StopValue = 0;
-        return StopValue
-
+    def SendStop(self):
+        global CodeRunning
+        CodeRunning = 0
+    
       
     def Showtime(self):#show current time function
         self.time = QTime.currentTime()
@@ -98,6 +98,7 @@ class MainWindow(QMainWindow):
 
     #get the last 3 elements of Order array 
     #OrderV should be a size of 3 array
+    ######################################
     def SendSetPush(self):
         global Order
         return Order
@@ -118,7 +119,8 @@ class MainWindow(QMainWindow):
         self.Result_block2.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.Result_block3.setStyleSheet("background-color: rgb(255, 255, 255);")
 
-        
+    ####################################
+    ####################################
     def GetWebCam(self,ret,image):
 
         #ret, image = self.cap.read() this one is using own webcamt
@@ -128,7 +130,8 @@ class MainWindow(QMainWindow):
         qImg = QImage(image.data, width, height, step, QImage.Format_RGB888)
         self.Label_image.setPixmap(QPixmap.fromImage(qImg))
 
-
+    ######################################
+    #####################################
     def GetData(self,green,red,blue,Assembly):
         self.GreenM.display(green)
         self.RedM.display(red)
@@ -152,15 +155,11 @@ class MainWindow(QMainWindow):
         self.Result_block2.setEnabled(False)
         self.Result_block3.setEnabled(False)
 
-
         self.Assembly()
         self.SetButton.clicked.connect(self.SendSetPush)
         self.ClearButton.clicked.connect(self.ClearPush)
         self.StopButton.clicked.connect(self.SendStop)
-
-        
-
-
+    
 
 app = QtWidgets.QApplication(sys.argv)
 
