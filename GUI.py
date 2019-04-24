@@ -6,7 +6,9 @@ from PyQt5.QtWidgets import QWidget,QMainWindow
 
 
 import sys
+sys.path.insert(0,r'C:\Users\chan\Desktop\GUI\OpenCV')
 import cv2
+import CostMap
 
 CodeRunning = 1;
 Order = [0,0,0]
@@ -17,8 +19,7 @@ class MainWindow(QMainWindow):
         super(MainWindow,self).__init__()
         uic.loadUi("GUI.ui",self)
         self.timer = QTimer()
-        #####could get the frame from main script#####
-        #self.cap = cv2.VideoCapture(0)
+        self.camera = CostMap.map_capture(1)
         self.runCode()
                 
 
@@ -44,7 +45,6 @@ class MainWindow(QMainWindow):
     def GreenPush(self):
         global counter
         global Order
-        self.lineEdit_6.setText("GREEN")
         if  counter < 3:
             Order[counter] = 1
         elif  counter == 3:
@@ -61,7 +61,6 @@ class MainWindow(QMainWindow):
         
     #set Red(2) to the Order array
     def RedPush(self):
-        self.lineEdit_6.setText("RED")
         global counter
         global Order
         if  counter < 3:
@@ -79,7 +78,6 @@ class MainWindow(QMainWindow):
         
     #set Blue(3) to the Order array
     def BluePush(self):
-        self.lineEdit_6.setText("BLUE")
         global counter
         global Order
         if  counter < 3:
@@ -113,7 +111,6 @@ class MainWindow(QMainWindow):
         global counter
         for i in range(3):
             Order[i] = 0
-        self.lineEdit_6.setText(str(Order))
         counter = 0
         self.Result_block1.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.Result_block2.setStyleSheet("background-color: rgb(255, 255, 255);")
@@ -121,15 +118,18 @@ class MainWindow(QMainWindow):
 
     ####################################
     ####################################
-    def GetWebCam(self,ret,image):
-
-        #ret, image = self.cap.read() this one is using own webcamt
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        height, width, channel = image.shape
-        step = channel * width
-        qImg = QImage(image.data, width, height, step, QImage.Format_RGB888)
-        self.Label_image.setPixmap(QPixmap.fromImage(qImg))
-
+    def GetWebCam(self):
+        ret, image = self.camera.get_webcam_feed()
+        if ret == 0:
+            print("HEHE")
+            self.Label_image.setText("Camera Now Working")
+        else:
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            height, width, channel = image.shape
+            step = channel * width
+            qImg = QImage(image.data, width, height, step, QImage.Format_RGB888)
+            self.Label_image.setPixmap(QPixmap.fromImage(qImg))
+        
     ######################################
     #####################################
     def GetData(self,green,red,blue,Assembly):
@@ -137,19 +137,14 @@ class MainWindow(QMainWindow):
         self.RedM.display(red)
         self.BlueM.display(blue)
         self.AssemblyM.display(Assembly)
-        print ("test")
 
 
     def runCode(self):
         self.timer.timeout.connect(self.Showtime)
         self.timer.start(100)
-        #self.timer.timeout.connect(self.GetWebCam(ret,image))
-        #self.timer.start(100)
-        t1=10
-        t2=2
-        t3=3
-        t4 = 5
-        self.GetData(t1,t2,t3,t4)
+        self.timer.timeout.connect(self.GetWebCam)
+
+        #self.GetData(t1,t2,t3,t4)
         
         self.Result_block1.setEnabled(False)
         self.Result_block2.setEnabled(False)
@@ -159,7 +154,6 @@ class MainWindow(QMainWindow):
         self.SetButton.clicked.connect(self.SendSetPush)
         self.ClearButton.clicked.connect(self.ClearPush)
         self.StopButton.clicked.connect(self.SendStop)
-    
 
 app = QtWidgets.QApplication(sys.argv)
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1187</width>
-    <height>841</height>
+    <width>1474</width>
+    <height>842</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>680</y>
+      <x>30</x>
+      <y>740</y>
       <width>1161</width>
       <height>81</height>
      </rect>
@@ -176,8 +176,8 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="StopButton">
     <property name="geometry">
      <rect>
-      <x>860</x>
-      <y>40</y>
+      <x>1120</x>
+      <y>30</y>
       <width>311</width>
       <height>101</height>
      </rect>
@@ -199,8 +199,8 @@ p, li { white-space: pre-wrap; }
    <widget class="QPlainTextEdit" name="plainTextEdit">
     <property name="geometry">
      <rect>
-      <x>430</x>
-      <y>40</y>
+      <x>560</x>
+      <y>30</y>
       <width>381</width>
       <height>101</height>
      </rect>
@@ -222,8 +222,8 @@ border: none;
    <widget class="QLabel" name="label_time">
     <property name="geometry">
      <rect>
-      <x>940</x>
-      <y>770</y>
+      <x>1230</x>
+      <y>760</y>
       <width>251</width>
       <height>41</height>
      </rect>
@@ -414,8 +414,8 @@ border: none;</string>
      <rect>
       <x>700</x>
       <y>160</y>
-      <width>421</width>
-      <height>411</height>
+      <width>741</width>
+      <height>571</height>
      </rect>
     </property>
     <property name="font">
@@ -431,8 +431,8 @@ border: none;</string>
       <rect>
        <x>30</x>
        <y>60</y>
-       <width>371</width>
-       <height>331</height>
+       <width>640</width>
+       <height>480</height>
       </rect>
      </property>
      <property name="text">
@@ -461,24 +461,6 @@ border: none;</string>
      <string/>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_6">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>760</y>
-      <width>351</width>
-      <height>61</height>
-     </rect>
-    </property>
-   </widget>
-   <zorder>groupBox</zorder>
-   <zorder>StopButton</zorder>
-   <zorder>plainTextEdit</zorder>
-   <zorder>label_time</zorder>
-   <zorder>groupBox_2</zorder>
-   <zorder>groupBox_3</zorder>
-   <zorder>lineEdit_6</zorder>
-   <zorder>label_date</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
