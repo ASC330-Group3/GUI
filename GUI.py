@@ -13,6 +13,7 @@ import CostMap
 CodeRunning = 1;
 Order = [0,0,0]
 counter = 0
+tester =1 
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -30,8 +31,7 @@ class MainWindow(QMainWindow):
     #need to determine what value to stop the system
     ####return StopValue####    
     def SendStop(self):
-        global CodeRunning
-        CodeRunning = 0
+        sys.exit()
     
       
     def Showtime(self):#show current time function
@@ -119,17 +119,27 @@ class MainWindow(QMainWindow):
     ####################################
     ####################################
     def GetWebCam(self):
-        ret, image = self.camera.get_webcam_feed()
-        if ret == 0:
-            print("HEHE")
-            self.Label_image.setText("Camera Now Working")
-        else:
-            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            height, width, channel = image.shape
-            step = channel * width
-            qImg = QImage(image.data, width, height, step, QImage.Format_RGB888)
-            self.Label_image.setPixmap(QPixmap.fromImage(qImg))
-        
+        global tester 
+        if tester == 1:
+            ret, image = self.camera.get_webcam_feed()
+            if ret == 0:
+                tester = 0
+            else:
+                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                height, width, channel = image.shape
+                step = channel * width
+                qImg = QImage(image.data, width, height, step, QImage.Format_RGB888)
+                self.Label_image.setPixmap(QPixmap.fromImage(qImg))
+                
+        elif (tester == 0) or (ret == 0) :
+            self.Label_image.setText("Camera is Not Working\nReplug the webcam")
+            self.camera.reconnect_camera()
+            ret, image = self.camera.get_webcam_feed()
+            tester = ret
+            
+            
+
+            
     ######################################
     #####################################
     def GetData(self,green,red,blue,Assembly):
@@ -138,17 +148,17 @@ class MainWindow(QMainWindow):
         self.BlueM.display(blue)
         self.AssemblyM.display(Assembly)
 
-
+    
     def runCode(self):
+        self.Result_block1.setEnabled(False)
+        self.Result_block2.setEnabled(False)
+        self.Result_block3.setEnabled(False)
+
         self.timer.timeout.connect(self.Showtime)
         self.timer.start(100)
         self.timer.timeout.connect(self.GetWebCam)
 
         #self.GetData(t1,t2,t3,t4)
-        
-        self.Result_block1.setEnabled(False)
-        self.Result_block2.setEnabled(False)
-        self.Result_block3.setEnabled(False)
 
         self.Assembly()
         self.SetButton.clicked.connect(self.SendSetPush)
