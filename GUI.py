@@ -7,8 +7,10 @@ from PyQt5.QtWidgets import QWidget,QMainWindow
 
 import sys
 sys.path.insert(0,r'C:\Users\chan\Desktop\GUI\OpenCV')
+sys.path.insert(0,r'C:\Users\chan\Desktop\GUI\platform_nav\nodes')
 import cv2
 import CostMap
+import ros_class
 
 CodeRunning = 1;
 Order = [0,0,0]
@@ -21,6 +23,8 @@ class MainWindow(QMainWindow):
         uic.loadUi("GUI.ui",self)
         self.timer = QTimer()
         self.camera = CostMap.map_capture(1)
+        self.ros_comms = ros_class.comms()
+        self.ros_comms.start()
         self.runCode()
                 
 
@@ -148,6 +152,10 @@ class MainWindow(QMainWindow):
         self.BlueM.display(blue)
         self.AssemblyM.display(Assembly)
 
+
+    def RunRos(self):
+        self.ros_comms.transform_data = self.camera.get_transform()
+        self.ros_comms.map_msg.data = self.camera.get_new_frame() 
     
     def runCode(self):
         self.Result_block1.setEnabled(False)
@@ -157,13 +165,17 @@ class MainWindow(QMainWindow):
         self.timer.timeout.connect(self.Showtime)
         self.timer.start(100)
         self.timer.timeout.connect(self.GetWebCam)
-
+        self.timer.start(100)
+        self.timer.timeout.connect(self.RunRos)
+        
         #self.GetData(t1,t2,t3,t4)
 
         self.Assembly()
         self.SetButton.clicked.connect(self.SendSetPush)
         self.ClearButton.clicked.connect(self.ClearPush)
         self.StopButton.clicked.connect(self.SendStop)
+
+              
 
 app = QtWidgets.QApplication(sys.argv)
 
