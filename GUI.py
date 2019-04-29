@@ -46,94 +46,69 @@ class MainWindow(QMainWindow):
         self.label_time.setText(self.time.toString())
         
         
-    #set Green(1) to the Order array
+    #set Green to the Order array
     def GreenPush(self):
         global counter
         global Order
-        #if  counter < 3:
-        #    Order[counter] = 1
-        #elif  counter == 3:
-        #    counter =  counter - 3
-        #    Order[counter] = 1
-        #counter += 1
-        #if counter == 1:
-        #    self.Result_block1.setStyleSheet("background-color: rgb(0, 255, 0);")
-        #elif counter == 2:
-        #    self.Result_block2.setStyleSheet("background-color: rgb(0, 255, 0);")
-        #elif counter == 3:
-        #    self.Result_block3.setStyleSheet("background-color: rgb(0, 255, 0);")
 
         self.Result_block1_test.setStyleSheet("background-color: rgb(0, 255, 0);")
         Order[0] = 2
+
         self.Result_block1_test.setText(" ")
-    #set Red(2) to the Order array
+        
+    #set Red to the Order array
     def RedPush(self):
         global counter
         global Order
-        #if  counter < 3:
-        #    Order[counter] = 2
-        #elif  counter == 3:
-        #    counter =  counter - 3
-        #    Order[counter] = 2
-        #counter += 1
-        #if counter == 1:
-        #    self.Result_block1.setStyleSheet("background-color: rgb(255, 0, 0);")
-        #elif counter == 2:
-        #    self.Result_block2.setStyleSheet("background-color: rgb(255, 0, 0);")
-        #elif counter == 3:
-        #    self.Result_block3.setStyleSheet("background-color: rgb(255, 0, 0);")
 
         self.Result_block1_test.setStyleSheet("background-color: rgb(255, 0, 0);")
         Order[0] = 1
+
         self.Result_block1_test.setText(" ")
         
-    #set Blue(3) to the Order array
+    #set Blue to the Order array
     def BluePush(self):
         global counter
         global Order
-        #if  counter < 3:
-        #    Order[counter] = 3
-        #elif  counter == 3:
-        #    counter =  counter - 3
-        #    Order[counter] = 3
-        #counter += 1
-        #if counter == 1:
-        #    self.Result_block1.setStyleSheet("background-color: rgb(0, 0, 255);")
-        #elif counter == 2:
-        #    self.Result_block2.setStyleSheet("background-color: rgb(0, 0, 255);")
-        #elif counter == 3:
-        #    self.Result_block3.setStyleSheet("background-color: rgb(0, 0, 255);")
-            
+
         self.Result_block1_test.setStyleSheet("background-color: rgb(0, 0, 255);")
         Order[0] = 3
+
         self.Result_block1_test.setText(" ")
         
     def Destination1(self):
         global Order
+
         Order[1] = 4
+
         self.Result_block2_test.setText("D1")
 
     def Destination2(self):
         global Order
+
         Order[1] = 5
+
         self.Result_block2_test.setText("D2")
 
     def Destination3(self):
         global Order
+        
         Order[1] = 6
+
         self.Result_block2_test.setText("D3")
 
-    #get the last 3 elements of Order array 
-    #OrderV should be a size of 3 array
+    
     ######################################
     def SendSetPush(self):
         global Order
         global DesOrder
+
         ListData = self.camera.get_position_list()
 
         if Order[0] != 0 and Order[1] != 0:
             print(ListData[Order[0]])
             print(ListData[Order[1]])
+            ######Marwan can get the position code here #############
         else:
             if Order[0] == 0 and Order[1] == 0:
                 self.Result_block1_test.setText("X")
@@ -143,10 +118,6 @@ class MainWindow(QMainWindow):
             elif Order[1] == 0:
                 self.Result_block2_test.setText("X")
 
-        
-        #print(self.camera.get_position_list(Order[1]))
-        #SendM = ["SamColourDictionaries","SamDeliverDictionaries"]
-        
         
     def Assembly(self):
         self.GreenButton.clicked.connect(self.GreenPush)
@@ -164,9 +135,6 @@ class MainWindow(QMainWindow):
         for i in range(2):
             Order[i] = 0
         counter = 0
-        #self.Result_block1.setStyleSheet("background-color: rgb(255, 255, 255);")
-        #self.Result_block2.setStyleSheet("background-color: rgb(255, 255, 255);")
-        #self.Result_block3.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.Result_block1_test.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.Result_block2_test.setText(" ")
         self.Result_block1_test.setText(" ")
@@ -209,9 +177,6 @@ class MainWindow(QMainWindow):
         #self.ros_comms.map_msg.data = self.camera.get_new_frame() 
     
     def runCode(self):
-        #self.Result_block1.setEnabled(False)
-        #self.Result_block2.setEnabled(False)
-        #self.Result_block3.setEnabled(False)
         self.Result_block1_test.setEnabled(False)
         self.Result_block2_test.setEnabled(False)
 
@@ -219,6 +184,7 @@ class MainWindow(QMainWindow):
         self.timer.start(100)
         self.timer.timeout.connect(self.GetWebCam)
         self.timer.start(100)
+        
         #self.timer.timeout.connect(self.RunRos)
         
         #self.GetData(t1,t2,t3,t4)
